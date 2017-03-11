@@ -2,7 +2,7 @@
 
 ###Setup
 Skapa en fil med namnet:
-settings.json
+`settings.json`
 med innehållet:
 ```
 {
