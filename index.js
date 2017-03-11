@@ -1,6 +1,8 @@
 
-// Main bot script
-
+/*
+Main bot script
+Make sure settings.json exists in main dir.
+*/
 const Discord = require('discord.js');
 const token = require('./settings.json').disc_token;
 const request = require('request');
