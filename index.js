@@ -23,6 +23,11 @@ bot.on("message", msg => {
     if (msgText.charAt(0) == "/") {
         msgArray = msgText.split(" ");
 
+        if (msgArray[0] =="/meOnline") {
+            msg.channel.sendMessage("Yes, you are Online!");
+            console.log("Sent message: 'You are online'");
+        }
+
         if (msgArray[0] == "/help") {
             msg.channel.sendMessage("```⸻⸻⸻ • /help • ⸻⸻⸻\n\n/yt [query]    ⸻ Searches YouTube\n\n/r/[subreddit] ⸻ Links to a subreddit```")
         }
