@@ -2,8 +2,10 @@
 
 ###Setup
 Skapa en fil med namnet:
-`settings.json`
-med innehållet:
+```
+settings.json
+```
+och innehållet:
 ```
 {
     "disc_token": "",
