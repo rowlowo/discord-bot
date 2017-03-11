@@ -2,9 +2,9 @@
 
 ###Setup
 Skapa en fil med namnet:
-```
+
 settings.json
-```
+
 och innehållet:
 ```JSON
 {
