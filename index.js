@@ -21,10 +21,10 @@ bot.on("message", msg => {
     var msgText = msg.content;
     console.log(msgText);
     if (msgText.charAt(0) == "/") {
-        msgArray = msgText.split(" ");
+        var msgArray = msgText.split(" ");
 
         if (msgArray[0] =="/meOnline") {
-            msg.channel.sendMessage("Yes, you are Online!");
+            msg.reply("Yes, you are Online!", {tts:true});
             console.log("Sent message: 'You are online'");
         }
 
