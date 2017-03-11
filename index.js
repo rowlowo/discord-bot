@@ -1,0 +1,60 @@
+
+// Main bot script
+
+const Discord = require('discord.js');
+const token = require('./settings.json').disc_token;
+const request = require('request');
+const bot = new Discord.Client();
+const API_KEY = require('./settings.json').youtube_api_key;
+var query;
+var videoId;
+var link;
+var uri;
+
+bot.on("ready", () => {
+    console.log("Bot is online.");
+});
+
+bot.on("message", msg => {
+    var msgText = msg.content;
+    console.log(msgText);
+    if (msgText.charAt(0) == "/") {
+        msgArray = msgText.split(" ");
+
+        if (msgArray[0] == "/help") {
+            msg.channel.sendMessage("```⸻⸻⸻ • /help • ⸻⸻⸻\n\n/yt [query]    ⸻ Searches YouTube\n\n/r/[subreddit] ⸻ Links to a subreddit```")
+        }
+        if (msgArray[0] =="/bot") {
+            msg.channel.sendMessage("Online");
+            console.log("Debug: Sent message: 'Online'.");
+        }
+        if (msgArray[0].includes("/r/")) {
+            msg.channel.sendMessage(`https://www.reddit.com${msgArray[0]}`)
+        }
+        if (msgArray[0] == "/yt") {
+            msgArray.shift();
+            var query = msgArray.join(" ");
+            console.log(query);
+            var uri = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=relevance&&q=${query}%7C&regionCode=SE&type=video&key=${API_KEY}`;
+            request({uri: uri, method: "GET"},
+                function(error, response, body) {
+                    var bodyJ = JSON.parse(body);
+                    try {
+                        var j = bodyJ.items[0].id.videoId;
+                        var videoId = String(j);
+                        var link = "https://www.youtube.com/watch?v=" + videoId;
+                        console.log(link);
+                        msg.channel.sendMessage(link);
+                    }
+                    catch(err) {
+                        console.log("error: " + err);
+                        msg.reply("Invalid query, try again.");
+                    }
+
+                });
+        }
+    }
+});
+
+
+bot.login(token);
