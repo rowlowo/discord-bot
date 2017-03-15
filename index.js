@@ -8,10 +8,12 @@ const token = require('./settings.json').disc_token;
 const request = require('request');
 const bot = new Discord.Client();
 const API_KEY = require('./settings.json').youtube_api_key;
+
 var query;
 var videoId;
 var link;
 var uri;
+var titel;
 
 bot.on("ready", () => {
     console.log("Bot is online.");
@@ -29,7 +31,7 @@ bot.on("message", msg => {
         }
 
         if (msgArray[0] == "/help") {
-            msg.channel.sendMessage("```⸻⸻⸻ • /help • ⸻⸻⸻\n\n/yt [query]    ⸻ Searches YouTube\n\n/r/[subreddit] ⸻ Links to a subreddit```")
+            msg.channel.sendMessage("```⸻⸻⸻ • /help • ⸻⸻⸻\n\n/yt [query]    ⸻ Searches YouTube\n\n/r/[subreddit] ⸻ Links to a subreddit\n\n/wiki [query]  ⸻ Searches Wikipedia```")
         }
         if (msgArray[0] =="/bot") {
             msg.channel.sendMessage("Online");
@@ -58,9 +60,27 @@ bot.on("message", msg => {
                         msg.reply("Invalid query, try again.");
                     }
 
-                });
+            });
         }
-    }
+        if (msgArray[0] == "/wiki") {
+            msgArray.shift();
+            var query = msgArray.join(" ");
+            console.log(query);
+            var uri = `https://sv.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${query}`;
+            request({uri: uri, method: "GET"},
+              function(error, response, body) {
+                var bodyJ = JSON.parse(body);
+                try {
+                  var titel = bodyJ.query.search[0].title.replace(" ", "_");
+                  msg.channel.sendMessage(`https://sv.wikipedia.org/wiki/${titel}`);
+                }
+                catch(err) {
+                  console.log(err);
+                  msg.reply("Invalid query, try again.");
+                }
+            });
+        }
+      }
 });
 
 
